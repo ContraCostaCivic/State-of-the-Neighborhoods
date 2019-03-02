@@ -63,7 +63,8 @@ function addColorValue(json) {
 $.getJSON('./data/neighborhoods_OpenLayers_CRS3857.geojson', function(json) {
   addLayer(json, {
     zIndex: 2,
-    styleFunction: neighborhoodStyleFunction
+    styleFunction: neighborhoodStyleFunction,
+    name: 'neighborhoods'
   })
 })
 function neighborhoodStyleFunction(feature, resolution) {
@@ -83,7 +84,8 @@ $.getJSON('./data/IntersectionPopulations.geojson', function(json) {
   addColorValue(json)
   addLayer(json, {
     zIndex: 1,
-    styleFunction: mainStyleFunction
+    styleFunction: mainStyleFunction,
+    name: 'populationDensity'
   })
 })
 function mainStyleFunction(feature, resolution) {
@@ -123,8 +125,16 @@ function addLayer(json, layerConfig) {
   var vectorLayer = new ol.layer.Vector({
     source: vectorSource,
     style: layerConfig.styleFunction,
-    zIndex: layerConfig.zIndex
+    zIndex: layerConfig.zIndex,
   });
-
+  vectorLayer.set('name', layerConfig.name)
   map.addLayer(vectorLayer)
+}
+
+// Toggle functions
+function toggleVisibility(layerName) {
+  const layers = map.getLayers().getArray()
+  const layer = layers.find(x => x.get('name') === layerName)
+  const visibility = layer.getVisible()
+  layer.setVisible(!visibility)
 }
