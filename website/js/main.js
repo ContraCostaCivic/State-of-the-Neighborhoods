@@ -103,6 +103,25 @@ function mainStyleFunction(feature, resolution) {
     text: createTextStyle(feature, resolution)
   });
 }
+$.getJSON('./data/Schools.geojson', function(json) {
+  addLayer(json, {
+    zIndex: 3,
+    styleFunction: schoolsStyleFunction,
+    name: 'schoolDistricts'
+  })
+})
+function schoolsStyleFunction(feature, resolution) {
+  return new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'blue',
+      width: 2
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 255, 0.3)'
+    }),
+    text: createTextStyle(feature, resolution, feature.get('Name') + '\n' + '(' + feature.get('STRation') + ')', 'blue')
+  });
+}
 
 var createTextStyle = function(feature, resolution, text, color) {
   return new ol.style.Text({
