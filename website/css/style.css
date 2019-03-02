@@ -10,6 +10,7 @@ main {
   background-position: center;
   background-size: cover;
   padding: 2rem 0 10rem 0;
+  text-shadow: black 3px 3px;
 }
 
 .flex-container {
